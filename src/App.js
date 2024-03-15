@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg"
+import "./App.css"
+import ToDosComponent from "./ToDosComponent"
+import { useState } from "react"
+import ToDoForm from "./ToDoForm"
 
 function App() {
+  const initialTodos = ["run", "clean", "fart"]
+  const [todos, setTodos] = useState(initialTodos)
+  console.log(todos)
+
+  const submitHandler = (event) => {
+    // prevent screen from resetting or flickering
+    event.preventDefault()
+
+    // grab the todo from the input
+    const newTodo = event.target.elements.todoInput.value
+
+    // set the state with the new input
+    setTodos([...todos, newTodo])
+
+    // reset form status
+    event.target.elements.todoInput.value = ""
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ToDosComponent todos={todos} />
+      <ToDoForm submitHandler={submitHandler} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
